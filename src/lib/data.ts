@@ -8,7 +8,7 @@ export const SITE = {
     "Halfly is an OpenAI-compatible proxy that cuts LLM costs with a router we trained ourselves, a quality dial, self-checking, caching and prompt compression. Free for 14 days, then you pay a share of what it saves you.",
   // TODO: replace with the real inbox before the site goes live (.example is a reserved, non-working domain).
   contactEmail: "hello@halfly.example",
-  url: "https://halfly.dev",
+  url: "https://halfly.co.uk",
 } as const;
 
 // Paid only: a free trial, then a share of the money Halfly measurably saves. Change the offer here.
