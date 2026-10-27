@@ -45,3 +45,8 @@ next-env.d.ts
 tsconfig.tsbuildinfo
 /shots/
 .env*
+
+# static export output and Cloudflare local files
+/out/
+.wrangler/
+.dev.vars*

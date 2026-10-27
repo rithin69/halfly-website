@@ -1,0 +1,11 @@
+// Cloudflare Workers config. The site is fully static (`output: "export"` in next.config.ts builds it into out/),
+// so the Worker only serves those files: no server code, nothing to configure.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "halfly-website",
+  "compatibility_date": "2026-10-23",
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page"
+  }
+}
