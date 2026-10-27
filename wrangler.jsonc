@@ -7,5 +7,11 @@
   "assets": {
     "directory": "./out",
     "not_found_handling": "404-page"
-  }
+  },
+  // Serve the site on our own domain (its DNS is on this Cloudflare account); Cloudflare creates the DNS
+  // records and the HTTPS certificate on deploy.
+  "routes": [
+    { "pattern": "halfly.co.uk", "custom_domain": true },
+    { "pattern": "www.halfly.co.uk", "custom_domain": true }
+  ]
 }
