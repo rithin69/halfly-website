@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { PRICING, SAVINGS_MODES } from "@/lib/data";
+import { PRICING, SAVINGS_MODES, paysForItself, startHref, timesOver } from "@/lib/data";
 import { Reveal } from "./Reveal";
 
 type Who = "developer" | "founder";
@@ -85,7 +85,7 @@ const AFTER: Line[] = [
   { text: ")" },
 ];
 const STEPS = [
-  { cmd: "pip install halfly", note: "Access comes with your free trial" },
+  { cmd: "pip install halfly", note: "Free to try: no card, no sign-up" },
   { cmd: "halfly init", note: "Pick your cheap and strong models" },
   { cmd: "halfly serve", note: "Proxy on :8000 · dashboard on /dashboard" },
 ];
@@ -221,7 +221,8 @@ function FounderPanel() {
   const [modeId, setModeId] = useState<(typeof SAVINGS_MODES)[number]["id"]>("balanced");
   const mode = SAVINGS_MODES.find((m) => m.id === modeId)!;
   const monthly = bill * mode.saving;
-  const keep = monthly * (1 - PRICING.feePct / 100);
+  const times = paysForItself(monthly);
+  const starterUsd = PRICING.starter * PRICING.usdPerGbp;
   const sliderId = useId();
 
   return (
@@ -269,22 +270,34 @@ function FounderPanel() {
           />
           <div className="mt-7 grid grid-cols-2 gap-4">
             <div className="rounded-2xl bg-pink-50 p-4">
-              <p className="text-sm font-medium text-ink-2">Saved / month</p>
+              <p className="text-sm font-medium text-ink-2">Saved / month (USD)</p>
               <p className="display mt-1 text-[clamp(2rem,4vw,2.8rem)] font-extrabold leading-none" aria-live="polite">
-                {money(monthly)}
+                ~{money(monthly)}
               </p>
             </div>
-            <div className="rounded-2xl bg-pink-600 p-4 text-white">
-              <p className="text-sm font-medium text-white/85">You keep / year</p>
-              <p className="display mt-1 text-[clamp(2rem,4vw,2.8rem)] font-extrabold leading-none">{money(keep * 12)}</p>
+            <div className="rounded-2xl bg-berry p-4 text-white">
+              <p className="text-sm font-medium text-white">Starter pays for itself</p>
+              <p className="display mt-1 flex items-baseline text-[clamp(2rem,4vw,2.8rem)] font-extrabold leading-none" aria-live="polite">
+                {timesOver(times)}
+                <span className="ml-1.5 text-[1.1rem] font-bold">over</span>
+              </p>
             </div>
           </div>
-          <p className="mt-5 text-[14px] leading-relaxed text-ink-2">
-            <span className="font-semibold text-ink">{Math.round(mode.saving * 100)}% lower cost</span> with {mode.quality}% of
-            prompts still answered at strong-model quality. &ldquo;You keep&rdquo; is after Halfly&apos;s {PRICING.feePct}% share of
-            the saving. Benchmark estimate (cheap model at 6% of the strong one&apos;s price); your real numbers show up in the
-            dashboard.
+          <p className="display mt-5 text-[1.15rem] font-bold leading-snug text-ink">
+            Halfly Starter costs {`${PRICING.currency}${PRICING.starter}`} a month{" "}
+            <span className="font-semibold text-ink-2">(about ${starterUsd.toFixed(2)})</span>{" "}
+            <span aria-hidden="true" className="text-pink-600">→</span>
+            <span className="sr-only">and</span> saves you ~{money(monthly)} a month.
           </p>
+          <p className="mt-3 text-[14px] leading-relaxed text-ink-2">
+            <span className="font-semibold text-ink">{Math.round(mode.saving * 100)}% lower cost</span> with {mode.quality}% of
+            prompts still answered at strong-model quality. Benchmark estimate (cheap model at 6% of the strong one&apos;s
+            price), in US dollars like your AI bill; our prices are in pounds, converted at about $
+            {PRICING.usdPerGbp.toFixed(2)} per £1. Your real numbers show up in the free dashboard.
+          </p>
+          <a href={startHref} className="btn btn-pink mt-6 w-full sm:w-auto">
+            See your real number free <span aria-hidden="true">→</span>
+          </a>
         </div>
       </div>
       <DashboardMock />

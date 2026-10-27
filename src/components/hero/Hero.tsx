@@ -71,7 +71,7 @@ export function Hero() {
         </div>
         <p className="mt-7 text-[15px] text-ink-2">
           <span className="font-semibold text-ink">~{Math.round(SAVINGS_MODES[0].saving * 100)}% cheaper</span> on{" "}
-          {ROUTER_FACTS.testPrompts.toLocaleString("en-GB")} held-out prompts · beats RouteLLM&apos;s router · pay only when you save
+          {ROUTER_FACTS.testPrompts.toLocaleString("en-GB")} held-out prompts · beats RouteLLM&apos;s router · see your savings free
         </p>
       </div>
 

@@ -1,13 +1,24 @@
-// Cloudflare Workers config. The site is fully static (`output: "export"` in next.config.ts builds it into out/),
-// so the Worker only serves those files: no server code, nothing to configure.
+// Cloudflare Workers config. The site is fully static (`output: "export"` in next.config.ts builds it into out/)
+// and is served straight from those files. The only server code is worker/index.ts, the licence API
+// (docs/licensing.md): `run_worker_first` sends /api/* to it; every other path is served from out/ as before,
+// without running the Worker.
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "halfly-website",
+  "main": "worker/index.ts",
   "compatibility_date": "2026-10-23",
   "assets": {
     "directory": "./out",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
   },
+  // Licence API settings. Price ids are plain variables, set in the Cloudflare dashboard (Workers & Pages ->
+  // halfly-website -> Settings -> Variables and secrets), as are the secrets STRIPE_SECRET_KEY and
+  // LICENCE_PRIVATE_KEY. Nothing is set here, so deploys never overwrite the dashboard values
+  // ("keep_vars": true). Until they are set, /api/licence/* answers 503 "licensing is not configured yet".
+  // See worker/README.md.
+  "keep_vars": true,
   // Serve the site on our own domain (its DNS is on this Cloudflare account); Cloudflare creates the DNS
   // records and the HTTPS certificate on deploy.
   "routes": [

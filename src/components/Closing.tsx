@@ -1,4 +1,5 @@
-import { PRICING, SITE, trialHref } from "@/lib/data";
+import Link from "next/link";
+import { PRICING, SITE, startHref } from "@/lib/data";
 import { Halfy } from "./Halfy";
 import { Logo } from "./Logo";
 
@@ -48,15 +49,15 @@ export function CallToAction() {
             Ready to stop overpaying for AI?
           </h2>
           <p className="display mt-6 max-w-xl text-[1.35rem] font-bold leading-snug text-white">
-            Free for {PRICING.trialDays} days. Then you pay {PRICING.feePct}% of what Halfly saves you, and nothing if it saves nothing.
+            See your savings free. Switch them on for {`${PRICING.currency}${PRICING.starter}`} a month. Cancel any time.
           </p>
           <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-            <a href={trialHref} className="btn w-full bg-white text-ink shadow-[0_5px_0_var(--berry-dark)] sm:w-auto hover:bg-pink-50 active:shadow-[0_1px_0_var(--berry-dark)]">
-              Start free trial
-            </a>
-            <a href="#pricing" className="btn w-full bg-ink text-white shadow-[0_5px_0_#000] sm:w-auto hover:bg-[#3d1631] active:shadow-[0_1px_0_#000]">
+            <Link href={startHref} className="btn w-full bg-white text-ink shadow-[0_5px_0_var(--berry-dark)] sm:w-auto hover:bg-pink-50 active:shadow-[0_1px_0_var(--berry-dark)]">
+              Start free
+            </Link>
+            <Link href="/#pricing" className="btn w-full bg-ink text-white shadow-[0_5px_0_#000] sm:w-auto hover:bg-[#3d1631] active:shadow-[0_1px_0_#000]">
               See pricing
-            </a>
+            </Link>
           </div>
         </div>
         <div className="flex justify-center lg:justify-end">
@@ -77,11 +78,11 @@ export function Footer() {
           <Logo />
           <nav aria-label="Footer">
             <ul className="flex flex-wrap gap-x-3 text-[15.5px] font-medium">
-              <li><a className="flex min-h-11 items-center px-2 hover:text-berry" href="#for-you">Get started</a></li>
-              <li><a className="flex min-h-11 items-center px-2 hover:text-berry" href="#how">How it works</a></li>
-              <li><a className="flex min-h-11 items-center px-2 hover:text-berry" href="#proof">Proof</a></li>
-              <li><a className="flex min-h-11 items-center px-2 hover:text-berry" href="#faq">FAQ</a></li>
-              <li><a className="flex min-h-11 items-center px-2 hover:text-berry" href="#pricing">Pricing</a></li>
+              <li><Link className="flex min-h-11 items-center px-2 hover:text-berry" href="/start">Get started</Link></li>
+              <li><Link className="flex min-h-11 items-center px-2 hover:text-berry" href="/#how">How it works</Link></li>
+              <li><Link className="flex min-h-11 items-center px-2 hover:text-berry" href="/#proof">Proof</Link></li>
+              <li><Link className="flex min-h-11 items-center px-2 hover:text-berry" href="/#faq">FAQ</Link></li>
+              <li><Link className="flex min-h-11 items-center px-2 hover:text-berry" href="/#pricing">Pricing</Link></li>
               <li><a className="flex min-h-11 items-center px-2 hover:text-berry" href={`mailto:${SITE.contactEmail}`}>Contact</a></li>
             </ul>
           </nav>

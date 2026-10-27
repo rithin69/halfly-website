@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:worker": "node --test \"worker/test/*.test.mjs\"",
+    "typecheck:worker": "tsc -p worker"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",
@@ -17,6 +19,7 @@
     "three": "^0.186.1"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261027.1",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -26,6 +29,7 @@
     "eslint-config-next": "16.4.3",
     "playwright": "^1.64.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.153.0"
   }
 }

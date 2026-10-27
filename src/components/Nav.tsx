@@ -1,15 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Halfy } from "./Halfy";
 import { Logo } from "./Logo";
 
 const LINKS = [
-  { href: "#for-you", label: "Get started" },
-  { href: "#how", label: "How it works" },
-  { href: "#proof", label: "Proof" },
-  { href: "#pricing", label: "Pricing" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/start", label: "Get started" },
+  { href: "/#how", label: "How it works" },
+  { href: "/#proof", label: "Proof" },
+  { href: "/#pricing", label: "Pricing" },
+  { href: "/#faq", label: "FAQ" },
 ];
 
 export function Nav() {
@@ -44,22 +45,22 @@ export function Nav() {
           scrolled || open ? "shadow-[0_10px_30px_-14px_rgba(181,34,104,0.35)]" : ""
         }`}
       >
-        <a href="#top" aria-label="Halfly home" className="flex min-h-11 items-center rounded-xl px-1" onClick={() => setOpen(false)}>
+        <Link href="/#top" aria-label="Halfly home" className="flex min-h-11 items-center rounded-xl px-1" onClick={() => setOpen(false)}>
           <Logo />
-        </a>
+        </Link>
         <ul className="hidden items-center gap-1 lg:flex">
           {LINKS.map((l) => (
             <li key={l.href}>
-              <a href={l.href} className="flex min-h-11 items-center rounded-xl px-4 text-[15.5px] font-medium text-ink transition hover:bg-pink-50 hover:text-berry">
+              <Link href={l.href} className="flex min-h-11 items-center rounded-xl px-4 text-[15.5px] font-medium text-ink transition hover:bg-pink-50 hover:text-berry">
                 {l.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
         <div className="flex items-center gap-2">
-          <a href="#pricing" className="btn btn-pink hidden min-h-11 px-5 py-2.5 text-[1rem] shadow-[0_4px_0_var(--berry-dark)] sm:inline-flex">
-            Start free trial
-          </a>
+          <Link href="/start" className="btn btn-pink hidden min-h-11 px-5 py-2.5 text-[1rem] shadow-[0_4px_0_var(--berry-dark)] sm:inline-flex">
+            Start free
+          </Link>
           <button
             type="button"
             aria-expanded={open}
@@ -88,22 +89,22 @@ export function Nav() {
             <ul>
               {LINKS.map((l) => (
                 <li key={l.href}>
-                  <a
+                  <Link
                     href={l.href}
                     onClick={() => setOpen(false)}
                     className="display flex min-h-14 items-center justify-between rounded-2xl px-4 text-[1.5rem] font-extrabold tracking-[-0.03em] text-ink transition active:bg-pink-50 hover:bg-pink-50"
                   >
                     {l.label}
                     <span aria-hidden="true" className="text-pink-600">→</span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
             <div className="mt-2 flex items-center gap-3 rounded-2xl bg-pink-50 p-3">
               <Halfy pose="happy" className="size-14 shrink-0" />
-              <a href="#pricing" onClick={() => setOpen(false)} className="btn btn-pink w-full">
-                Start free trial
-              </a>
+              <Link href="/start" onClick={() => setOpen(false)} className="btn btn-pink w-full">
+                Start free
+              </Link>
             </div>
           </div>
         )}

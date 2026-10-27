@@ -1,4 +1,6 @@
 import { AUDITS, PRICING } from "@/lib/data";
+
+const gbp = (v: number) => `${PRICING.currency}${v}`;
 import { Reveal } from "./Reveal";
 
 const QA = [
@@ -8,7 +10,7 @@ const QA = [
   },
   {
     q: "Can I try it without risking anything?",
-    a: "Yes. Start in observe mode: every request still goes to your strong model, so your users see no change. Halfly reports what routing would have saved, and at what checked quality. When you like the numbers, change one setting (mode: observe becomes mode: route).",
+    a: `Yes, and it is free: no card, no sign-up. Without a paid plan Halfly runs in observe mode: every request still goes to your strong model, so your users see no change, and the dashboard shows what routing would have saved, at what checked quality. When you like the numbers, buy Starter (${gbp(PRICING.starter)} a month), activate your key, and the savings switch on.`,
   },
   {
     q: "Does the double-checking cost money?",
@@ -24,7 +26,7 @@ const QA = [
   },
   {
     q: "Do you see or store my prompts?",
-    a: "No. Halfly runs on your own servers, so prompts never come to us. By default it does not even write prompt text to its own log; it records only costs and routing decisions. Each API key gets its own cache, so customers never see each other's answers.",
+    a: "No. Halfly runs on your own servers, so prompts never come to us. By default it does not even write prompt text to its own log; it records only costs and routing decisions. Each API key gets its own cache, so customers never see each other's answers. A paid licence checks in with us about once a day, and it sends only the licence key: no prompts, no usage data.",
   },
   {
     q: "How is this different from RouteLLM or OpenRouter?",
@@ -32,7 +34,7 @@ const QA = [
   },
   {
     q: "How much does it cost?",
-    a: `It is free for ${PRICING.trialDays} days. After that you pay ${PRICING.feePct}% of what Halfly saves you, measured request by request in its own log (net of its quality checks), and you keep the other ${100 - PRICING.feePct}%. If it saves nothing, you pay nothing. Big teams can ask for a flat yearly price instead.`,
+    a: `Free to install and try: observe mode, the savings dashboard and budget caps cost nothing. Starter is ${gbp(PRICING.starter)} a month and switches the savings on (routing with the quality dial, exact cache, fallback, dashboard and reports). Pro is ${gbp(PRICING.pro)} a month and adds self-learning, cost and quality per feature, a weekly savings report with budget alerts, and prompt compression. Cancel any time: if you stop paying, your app keeps working and Halfly goes back to free observe mode.`,
   },
   {
     q: "Where do the numbers on this page come from?",

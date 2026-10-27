@@ -1,0 +1,19 @@
+{
+  // Type-checks the Cloudflare Worker (worker/*.ts) against the Workers runtime types.
+  // The website's own tsconfig.json excludes worker/. Check with: npx tsc -p worker
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["@cloudflare/workers-types"],
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "allowImportingTsExtensions": true
+  },
+  "include": ["*.ts"]
+}

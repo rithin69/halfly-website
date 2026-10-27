@@ -5,21 +5,41 @@ export const SITE = {
   name: "Halfly",
   tagline: "Big AI. Tiny bill.",
   description:
-    "Halfly is an OpenAI-compatible proxy that cuts LLM costs with a router we trained ourselves, a quality dial, self-checking, caching and prompt compression. Free for 14 days, then you pay a share of what it saves you.",
+    "Halfly is an OpenAI-compatible proxy that cuts LLM costs with a router we trained ourselves, a quality dial, self-checking, caching and prompt compression. See your savings free, then switch them on from £5 a month.",
   // TODO: replace with the real inbox before the site goes live (.example is a reserved, non-working domain).
   contactEmail: "hello@halfly.example",
   url: "https://halfly.co.uk",
 } as const;
 
-// Paid only: a free trial, then a share of the money Halfly measurably saves. Change the offer here.
+// Flat monthly plans in GBP (contract: ../docs/licensing.md). Change the offer here.
 export const PRICING = {
-  trialDays: 14,
-  feePct: 20, // Pro: share of measured savings (net of Halfly's own quality checks)
-  example: { bill: 10_000, withHalfly: 5_000 }, // a month, to explain the fee
+  currency: "£",
+  free: 0,
+  starter: 5, // £ per month
+  pro: 10, // £ per month
+  // Stripe Payment Links: paste the live "https://buy.stripe.com/..." URLs here when they exist.
+  // While they are empty, the buy buttons send people to /start#plans instead, so nothing is broken.
+  checkoutStarter: "" as string,
+  checkoutPro: "" as string,
+  // AI providers bill in US dollars, our prices are in pounds. Only used to say how many times a plan pays for
+  // itself; always shown next to the figure. Approximate: update now and then.
+  usdPerGbp: 1.3,
+  // The example month in the pricing section (US dollars).
+  exampleBillUsd: 1_000,
 } as const;
 
-export const trialHref = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent("Halfly free trial")}`;
-export const salesHref = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent("Halfly Enterprise")}`;
+export const starterHref = PRICING.checkoutStarter || "/start#plans";
+export const proHref = PRICING.checkoutPro || "/start#plans";
+export const startHref = "/start";
+export const salesHref = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent("Halfly for a bigger team")}`;
+export const supportHref = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent("Halfly licence help")}`;
+
+/** How many times a monthly plan (in £) pays for itself, given a monthly saving in US dollars. */
+export const paysForItself = (savedUsdPerMonth: number, planGbp: number = PRICING.starter) =>
+  savedUsdPerMonth / (planGbp * PRICING.usdPerGbp);
+
+/** "76×", "7.6×": how a pays-for-itself multiple is written on the site. */
+export const timesOver = (n: number) => `${n >= 10 ? Math.round(n).toLocaleString("en-GB") : n.toFixed(1)}×`;
 
 export type RouterRow = { name: string; short?: string; apgr: number; kind: "baseline" | "competitor" | "ours" | "bound" };
 
