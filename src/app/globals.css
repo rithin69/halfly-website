@@ -1,0 +1,199 @@
+@import "tailwindcss";
+
+/* Halfly v2 tokens: white + hot pink, deep berry ink, chunky and friendly.
+   Contrast (WCAG): ink 17.6:1, ink-2 7.5:1 (6.8 on wash), berry text 6.2:1,
+   white on pink-600 buttons 4.0:1 (bold 18px+ = large text, needs 3:1). */
+:root {
+  --white: #ffffff;
+  --wash: #fff1f7;
+  --pink-50: #fff7fb;
+  --pink-100: #ffe0ee;
+  --pink-200: #ffc2dd;
+  --pink-300: #ff94c2;
+  --pink-400: #ff5fa2;
+  --pink-600: #e8338a;
+  --berry: #b52268;
+  --berry-dark: #8d1550;
+  --ink: #2b0f22;
+  --ink-2: #6e4a62;
+  --line: #f6dce9;
+  --chart-gray: #e3d6de;
+}
+
+@theme inline {
+  --color-white: var(--white);
+  --color-wash: var(--wash);
+  --color-pink-50: var(--pink-50);
+  --color-pink-100: var(--pink-100);
+  --color-pink-200: var(--pink-200);
+  --color-pink-300: var(--pink-300);
+  --color-pink-400: var(--pink-400);
+  --color-pink-600: var(--pink-600);
+  --color-berry: var(--berry);
+  --color-berry-dark: var(--berry-dark);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-line: var(--line);
+  --font-display: var(--font-gabarito);
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}
+
+body {
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.display {
+  font-family: var(--font-gabarito), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.035em;
+}
+
+::selection {
+  background: var(--pink-200);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--pink-600);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+@layer components {
+  /* Chunky, pressable buttons: a solid bottom edge that sinks on press. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border-radius: 18px;
+    padding: 0.95rem 1.7rem;
+    font-family: var(--font-gabarito), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.12s ease,
+      background-color 0.2s ease;
+    will-change: transform;
+  }
+  .btn:active {
+    transform: translateY(4px);
+  }
+  .btn-pink {
+    background: var(--pink-600);
+    color: #fff;
+    box-shadow: 0 5px 0 var(--berry-dark);
+  }
+  .btn-pink:hover {
+    background: #f0409a;
+  }
+  .btn-pink:active {
+    box-shadow: 0 1px 0 var(--berry-dark);
+  }
+  .btn-white {
+    background: #fff;
+    color: var(--ink);
+    box-shadow:
+      0 0 0 2px var(--pink-100) inset,
+      0 5px 0 var(--pink-200);
+  }
+  .btn-white:hover {
+    background: var(--pink-50);
+  }
+  .btn-white:active {
+    box-shadow:
+      0 0 0 2px var(--pink-100) inset,
+      0 1px 0 var(--pink-200);
+  }
+}
+
+/* Headline words rise in on load (pure CSS: works before and without JS). */
+.rise {
+  animation: rise 0.8s cubic-bezier(0.2, 0.9, 0.25, 1.15) both;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.35em) rotate(2deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Endless provider strip. Two copies of the list, slid by exactly one copy's width. */
+.marquee {
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+.marquee-track {
+  animation: marquee 32s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Hand-drawn underline that draws itself in. */
+.swoosh path {
+  stroke-dasharray: 520;
+  stroke-dashoffset: 520;
+  animation: draw 0.9s 0.35s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Scroll reveal (see Reveal.tsx). Hidden only once JS has run (html.js), never for reduced motion. */
+.reveal {
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html.js .reveal:not(.in) {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  html.js .reveal:not(.in) {
+    opacity: 1;
+    transform: none;
+  }
+  .swoosh path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .rise,
+  .marquee-track {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
